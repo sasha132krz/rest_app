@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+
+    <meta charset="utf-8"></meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+
+    <title>Pieces of art</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script src="js/piecesOfArt.js"></script>
+    <style type="text/css">
+        table {
+          border-collapse: collapse;
+        }
+        td, th {
+          padding: 3px;
+          border: 1px solid black;
+        }
+        th {
+          background: #b0e0e6;
+        }
+        hr {
+          border: none;
+          background-color: red;
+          height: 2px;
+        }
+    </style>
+</head>
+<body ng-app="piecesOfArt" ng-controller="PiecesOfArtController">
+
+<h2>База данных произвдений искусства</h2>
+<hr>
+<div ng-controller="getPieces" ng-show="piecesList.length > 0">
+    <table id="piecesTable">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>Название</th>
+            <th>Категория</th>
+            <th>Владелец</th>
+            <th>Год создания</th>
+            <th>Оценочная стоимость</th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="piece in piecesList" id="{{piece.id}}">
+            <td>{{piece.id}}</td>
+            <td>{{piece.name}}</td>
+            <td>{{piece.category.name}}</td>
+            <td>{{piece.owner.name}}</td>
+            <td>{{piece.year}}</td>
+            <td>{{piece.price}}</td>
+            <td><input type="button" value="Удалить" ng-click="delete(piece.id)"/></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+<hr>
+<h3>Добавить новое произведение искусства</h3>
+<form role="form" ng-submit="addPiece()">
+    <label>Название:
+        <input type="text" name="name" ng-model="name" required placeholder="Наименование" minlength="3" maxlength="32"/>
+    </label>
+    <br><br>
+    <label>Категория:
+        <select name="type" ng-model="type">
+            <option value=1>Живопись</option>
+            <option value=2>Скульптура</option>
+            <option value=3>Фотография</option>
+        </select>
+    </label>
+    <br><br>
+    <label>Владелец:
+        <select name="owner" ng-model="owner">
+            <option value="1">Эрмитаж</option>
+            <option value="2">Русский музей</option>
+            <option value="3">Третьяковская галерея</option>
+        </select>
+    </label>
+    <br><br>
+    <label>Год создания:
+        <input type="number" name="year" ng-model="year" required placeholder="Год" min="1000" max="2024"/>
+    </label>
+    <br><br>
+    <label>Оценочная стоимость:
+        <input type="number" name="price" ng-model="price" required placeholder="Стоимость" min="1000" max="100000"/>
+    </label>
+    <br><br>
+    <input type="reset" value="Очистить форму"/>
+    <input type="submit" value="Добавить"/>
+    </form>
+</body>
+</html>
